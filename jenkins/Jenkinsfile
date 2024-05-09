@@ -22,9 +22,8 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo "Root object: ${rootObject}"
                 step([$class: 'AWSEBDeploymentBuilder', applicationName: aws_application_name,
-                          environmentName: aws_environment_name, awsRegion: aws_region, credentialId: aws_credentials, rootObject: 'flask_app.zip'])
+                          environmentName: aws_environment_name, awsRegion: aws_region, credentialId: aws_credentials,versionLabelFormat: "-${BUILD_NUMBER}", rootObject: 'flask_app.zip'])
                 
             }
         }

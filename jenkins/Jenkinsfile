@@ -22,7 +22,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def awsBeanstalk = [
+                    def deployment = [
                         credentialsId: "${aws_credentials}",
                         region: "${aws_region}",
                         applicationName: "${aws_application_name}",
@@ -31,7 +31,7 @@ pipeline {
                             zipfile: 'flask_app.zip'
                         ]
                     ]
-                    def deployBuilder = [$class: 'AWSEBDeploymentBuilder', config: awsBeanstalk]
+                    def deployBuilder = [$class: 'AWSEBDeploymentBuilder', config: deployment]
                     deployBuilder.deploy()
                 }
             }

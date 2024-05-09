@@ -9,7 +9,7 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    sh ". venv/bin/activate && pytest"
+                    sh ". venv/bin/activate && pytest -v --tb"
                 }
             }
         }

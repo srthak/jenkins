@@ -9,7 +9,7 @@ pipeline {
     stages { 
         stage('Build') { 
             steps {
-                sh 'python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && zip -r flask_app.zip .'
+                sh 'python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && zip -r flask_app.zip . -x "venv/*"'
                 sh 'ls -l flask_app.zip'
             }
         }

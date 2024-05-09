@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     step([$class: 'AWSEBDeploymentBuilder', applicationName: aws_application_name,
-                          environmentName: aws_environment_name, awsRegion: aws_region, credentialId: aws_credentials, sourceBundle: [zipFile: 'flask_app.zip']])
+                          environmentName: aws_environment_name, awsRegion: aws_region, credentialId: aws_credentials, rootObject: 'flask_app.zip'])
                 }
             }
         }

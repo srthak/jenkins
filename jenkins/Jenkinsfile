@@ -27,8 +27,12 @@ pipeline {
                         region: "${aws_region}",
                         applicationName: "${aws_application_name}",
                         environmentName: "${aws_environment_name}"
+                        sourceBundle: [
+                            zipfile: 'flask_app.zip'
+                        ]
                     ]
-                    AWSEBDeployment(deployment: awsBeanstalk)
+                    def deployBuilder = [$class: 'AWSEBDeploymentBuilder', config: deployment]
+                    deployBuilder.deploy()
                 }
             }
         }

@@ -22,17 +22,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    def deployment = [
-                        credentialsId: "${aws_credentials}",
-                        region: "${aws_region}",
-                        applicationName: "${aws_application_name}",
-                        environmentName: "${aws_environment_name}"
-                        sourceBundle: [
-                            zipfile: 'flask_app.zip'
-                        ]
-                    ]
-                    def deployBuilder = [$class: 'AWSEBDeploymentBuilder', config: deployment]
-                    deployBuilder.deploy()
+                    step([$class: 'AWSEBDeploymentBuilder', applicationName: aws_application_name,
+                          environmentName: aws_environment_name, awsRegion: aws_region, credentialId: aws_credentials, sourceBundle: [zipFile: 'flask_app.zip']])
                 }
             }
         }

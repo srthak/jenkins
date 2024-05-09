@@ -22,11 +22,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    awsebDeploy(credentials: aws_credentials,
-                                region: aws_region,
-                                applicationName: aws_application_name,
-                                environmentName: aws_environment_name,
-                                sourceBundle: 'flask_app.zip')
+                    def awsBeanstalk = [
+                        credentialsId: "${aws_credentials}",
+                        region: "${aws_region}",
+                        applicationName: "${aws_application_name}",
+                        environmentName: "${aws_environment_name}"
+                    ]
+                    AWSEBDeployment(deployment: awsBeanstalk)
                 }
             }
         }

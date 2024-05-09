@@ -31,7 +31,7 @@ pipeline {
                             zipfile: 'flask_app.zip'
                         ]
                     ]
-                    def deployBuilder = [$class: 'AWSEBDeploymentBuilder', config: deployment]
+                    def deployBuilder = [$class: 'AWSEBDeploymentBuilder', config: awsBeanstalk]
                     deployBuilder.deploy()
                 }
             }

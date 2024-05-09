@@ -10,6 +10,7 @@ pipeline {
         stage('Build') { 
             steps {
                 sh 'python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && zip -r flask_app.zip .'
+                sh 'ls -l flask_app.zip'
             }
         }
         stage('Test') {
@@ -21,6 +22,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+                echo "Root object: ${rootObject}"
                 step([$class: 'AWSEBDeploymentBuilder', applicationName: aws_application_name,
                           environmentName: aws_environment_name, awsRegion: aws_region, credentialId: aws_credentials, rootObject: 'flask_app.zip'])
                 

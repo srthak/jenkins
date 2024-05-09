@@ -1,15 +1,32 @@
 pipeline { 
-    agent any 
+    agent any
+    environment {
+        aws_region = 'us-east-1'
+        aws_credentials = 'Jenkins-with-Beanstalk-Credentials'
+        aws_application_name = 'diagnostic-server'
+        aws_environment_name = 'Diagnostic-server-dev'
+    }
     stages { 
         stage('Build') { 
             steps {
-                sh 'python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt'
+                sh 'python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && zip -r flask_app.zip .'
             }
         }
         stage('Test') {
             steps {
                 script {
                     sh ". venv/bin/activate && pytest -v --tb=no"
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                script {
+                    awsebDeploy(credentials: aws_credentials,
+                                region: aws_region,
+                                applicationName: aws_application_name,
+                                environmentName: aws_environment_name,
+                                sourceBundle: 'flask_app.zip')
                 }
             }
         }
